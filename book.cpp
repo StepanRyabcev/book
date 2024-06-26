@@ -6,7 +6,7 @@ Book::Book()
     genre = "";
     numofpages = 0;
 }
-Book::Book(QString name1, QString genre1, int numofpages1)
+Book::Book(QString name1, QString genre1 = "", int numofpages1 = 0)
 {
     name = name1;
     genre = genre1;
