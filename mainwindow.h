@@ -29,6 +29,6 @@ private slots:
 private:
     QVector<Book> bookv;
     Ui::MainWindow *ui;
-    int i = 0;
+    int objnum = 0;
 };
 #endif // MAINWINDOW_H

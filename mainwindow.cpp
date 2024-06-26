@@ -27,15 +27,20 @@ void MainWindow::on_submit_clicked()
     bookv.push_back(Book(name, genre, str));
     ui->get_out->setEnabled(true);
     ui->change->setEnabled(true);
+    objnum++;
 }
 
 
 void MainWindow::on_get_out_clicked()
 {
-    QStandardItemModel* model=  new QStandardItemModel(1, 3);
-    model->setItem(0, 0, new QStandardItem(bookv[i].getname()));
-    model->setItem(0, 1, new QStandardItem(bookv[i].getgenre()));
-    model->setItem(0, 2, new QStandardItem(QString::number(bookv[i].getstr())));
+    QStandardItemModel* model=  new QStandardItemModel(objnum, 3);
+    for (int i = 0; i < objnum; i++)
+    {
+        model->setItem(i, 0, new QStandardItem(bookv[i].getname()));
+        model->setItem(i, 1, new QStandardItem(bookv[i].getgenre()));
+        model->setItem(i, 2, new QStandardItem(QString::number(bookv[i].getstr())));
+    }
+    int i = 0;
     ui->b_name_out->setText(bookv[i].getname());
     ui->b_genre_out->setText(bookv[i].getgenre());
     ui->b_str_out->setText(QString::number(bookv[i].getstr()));
@@ -45,6 +50,7 @@ void MainWindow::on_get_out_clicked()
 
 void MainWindow::on_change_clicked()
 {
+    int i = 0;
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
     int str = ui->b_str->value();
