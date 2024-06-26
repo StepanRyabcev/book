@@ -17,6 +17,18 @@ public:
     void changeNumofpages(int);
     void changeName(QString);
     void getFromKeyboard();
+    QString getname()
+    {
+        return name;
+    }
+    QString getgenre()
+    {
+        return genre;
+    }
+    int getstr()
+    {
+        return numofpages;
+    }
 
 };
 
