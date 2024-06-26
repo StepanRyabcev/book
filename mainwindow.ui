@@ -66,50 +66,11 @@
      <number>999999</number>
     </property>
    </widget>
-   <widget class="QLabel" name="b_name_out">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>220</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Название</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="b_genre_out">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>220</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Жанр</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="b_str_out">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>220</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Страницы</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="get_out">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>280</y>
+      <x>130</x>
+      <y>120</y>
       <width>83</width>
       <height>29</height>
      </rect>
@@ -137,10 +98,10 @@
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>350</y>
-      <width>411</width>
-      <height>192</height>
+      <x>20</x>
+      <y>170</y>
+      <width>761</width>
+      <height>381</height>
      </rect>
     </property>
    </widget>

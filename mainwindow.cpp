@@ -24,10 +24,14 @@ void MainWindow::on_submit_clicked()
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
     int str = ui->b_str->value();
+    ui->b_name->clear();
+    ui->b_genre->clear();
+    ui->b_str->setValue(0);
     bookv.push_back(Book(name, genre, str));
     ui->get_out->setEnabled(true);
     ui->change->setEnabled(true);
     objnum++;
+    on_get_out_clicked();
 }
 
 
@@ -38,13 +42,13 @@ void MainWindow::on_get_out_clicked()
     {
         model->setItem(i, 0, new QStandardItem(bookv[i].getname()));
         model->setItem(i, 1, new QStandardItem(bookv[i].getgenre()));
-        model->setItem(i, 2, new QStandardItem(QString::number(bookv[i].getstr())));
+        if (bookv[i].getstr() != 0)
+            model->setItem(i, 2, new QStandardItem(QString::number(bookv[i].getstr())));
     }
-    int i = 0;
-    ui->b_name_out->setText(bookv[i].getname());
-    ui->b_genre_out->setText(bookv[i].getgenre());
-    ui->b_str_out->setText(QString::number(bookv[i].getstr()));
-    ui->tableView->setModel(model);
+    model->setHeaderData(0, Qt::Horizontal, "Название");
+        model->setHeaderData(1, Qt::Horizontal, "Жанр");
+        model->setHeaderData(2, Qt::Horizontal, "Страницы");
+        ui->tableView->setModel(model);
 }
 
 
