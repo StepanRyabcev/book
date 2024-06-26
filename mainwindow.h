@@ -23,6 +23,8 @@ private slots:
 
     void on_get_out_clicked();
 
+    void on_change_clicked();
+
 private:
     Book *book;
     Ui::MainWindow *ui;
