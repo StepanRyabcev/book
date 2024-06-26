@@ -24,10 +24,13 @@ private slots:
 
     void on_change_clicked();
 
+    void onDataChanged(const QModelIndex&, const QModelIndex&);
+
 private:
     void on_get_out_data();
     QVector<Book> bookv;
     Ui::MainWindow *ui;
     int objnum = 0;
+    bool changedbysubmit = false;
 };
 #endif // MAINWINDOW_H

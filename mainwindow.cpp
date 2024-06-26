@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_submit_clicked()
 {
+    changedbysubmit = true;
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
     int str = ui->b_str->value();
@@ -34,12 +35,14 @@ void MainWindow::on_submit_clicked()
         ui->changeObj->setMaximum(objnum);
         on_get_out_data();
     }
+    changedbysubmit = false;
 }
 
 
 void MainWindow::on_get_out_data()
 {
     QStandardItemModel* model=  new QStandardItemModel(objnum, 3);
+    connect(model, &QStandardItemModel::dataChanged, this, &MainWindow::onDataChanged);
     for (int i = 0; i < objnum; i++)
     {
         model->setItem(i, 0, new QStandardItem(bookv[i].getname()));
@@ -69,3 +72,19 @@ void MainWindow::on_change_clicked()
     on_get_out_data();
 }
 
+void MainWindow::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+{
+    if (changedbysubmit == false)
+    {
+        if (topLeft.column() == 0)
+        {
+            QString name = topLeft.data().toString();
+            if (name != "")
+                bookv[bottomRight.row()].changeName(name);
+        }
+        if (topLeft.column() == 1)
+            bookv[bottomRight.row()].changeGenre(topLeft.data().toString());
+        if (topLeft.column() == 2)
+            bookv[bottomRight.row()].changeNumofpages(topLeft.data().toInt());
+    }
+}
