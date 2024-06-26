@@ -53,7 +53,7 @@
      <string>Ввести</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QSpinBox" name="b_str">
     <property name="geometry">
      <rect>
       <x>520</x>
