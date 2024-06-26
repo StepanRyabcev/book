@@ -22,8 +22,6 @@ public:
 private slots:
     void on_submit_clicked();
 
-    void on_change_clicked();
-
     void onDataChanged(const QModelIndex&, const QModelIndex&);
 
 private:

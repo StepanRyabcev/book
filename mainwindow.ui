@@ -66,19 +66,6 @@
      <number>999999</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="change">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>120</y>
-      <width>83</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Изменить</string>
-    </property>
-   </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
@@ -87,22 +74,6 @@
       <width>761</width>
       <height>381</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="changeObj">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>120</y>
-      <width>81</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>1</number>
     </property>
    </widget>
   </widget>
