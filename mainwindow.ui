@@ -43,7 +43,7 @@
    <widget class="QPushButton" name="submit">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>300</x>
       <y>120</y>
       <width>83</width>
       <height>29</height>
@@ -64,22 +64,6 @@
     </property>
     <property name="maximum">
      <number>999999</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="get_out">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>120</y>
-      <width>83</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Вывести</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="change">
@@ -103,6 +87,22 @@
       <width>761</width>
       <height>381</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="changeObj">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>120</y>
+      <width>81</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>1</number>
     </property>
    </widget>
   </widget>

@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->get_out->setEnabled(false);
     ui->change->setEnabled(false);
 }
 
@@ -27,15 +26,18 @@ void MainWindow::on_submit_clicked()
     ui->b_name->clear();
     ui->b_genre->clear();
     ui->b_str->setValue(0);
-    bookv.push_back(Book(name, genre, str));
-    ui->get_out->setEnabled(true);
-    ui->change->setEnabled(true);
-    objnum++;
-    on_get_out_clicked();
+    if (name != "")
+    {
+        bookv.push_back(Book(name, genre, str));
+        ui->change->setEnabled(true);
+        objnum++;
+        ui->changeObj->setMaximum(objnum);
+        on_get_out_data();
+    }
 }
 
 
-void MainWindow::on_get_out_clicked()
+void MainWindow::on_get_out_data()
 {
     QStandardItemModel* model=  new QStandardItemModel(objnum, 3);
     for (int i = 0; i < objnum; i++)
@@ -54,7 +56,7 @@ void MainWindow::on_get_out_clicked()
 
 void MainWindow::on_change_clicked()
 {
-    int i = 0;
+    int i = ui->changeObj->value() - 1;
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
     int str = ui->b_str->value();
@@ -64,5 +66,6 @@ void MainWindow::on_change_clicked()
         bookv[i].changeGenre(genre);
     if (str != 0)
         bookv[i].changeNumofpages(str);
+    on_get_out_data();
 }
 

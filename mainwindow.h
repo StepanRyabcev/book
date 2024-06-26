@@ -22,11 +22,10 @@ public:
 private slots:
     void on_submit_clicked();
 
-    void on_get_out_clicked();
-
     void on_change_clicked();
 
 private:
+    void on_get_out_data();
     QVector<Book> bookv;
     Ui::MainWindow *ui;
     int objnum = 0;
