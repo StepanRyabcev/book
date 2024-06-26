@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include <QString>
+#include <QStandardItemModel>
+#include <QTableView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,9 +32,14 @@ void MainWindow::on_submit_clicked()
 
 void MainWindow::on_get_out_clicked()
 {
+    QStandardItemModel* model=  new QStandardItemModel(1, 3);
+    model->setItem(0, 0, new QStandardItem(book->getname()));
+    model->setItem(0, 1, new QStandardItem(book->getgenre()));
+    model->setItem(0, 2, new QStandardItem(QString::number(book->getstr())));
     ui->b_name_out->setText(book->getname());
     ui->b_genre_out->setText(book->getgenre());
     ui->b_str_out->setText(QString::number(book->getstr()));
+    ui->tableView->setModel(model);
 }
 
 
