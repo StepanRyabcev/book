@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
 #include "book.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +27,8 @@ private slots:
     void on_change_clicked();
 
 private:
-    Book *book;
+    QVector<Book> bookv;
     Ui::MainWindow *ui;
+    int i = 0;
 };
 #endif // MAINWINDOW_H
