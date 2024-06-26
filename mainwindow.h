@@ -21,6 +21,8 @@ public:
 private slots:
     void on_submit_clicked();
 
+    void on_get_out_clicked();
+
 private:
     Book *book;
     Ui::MainWindow *ui;
