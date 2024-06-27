@@ -5,6 +5,7 @@
 #include <QStandardItemModel>
 #include <QTableView>
 #include <QTextStream>
+#include <QMessageBox>
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -21,7 +22,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_submit_clicked()
 {
-    ui->load->setEnabled(false);
     changedbysubmit = true;
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
@@ -65,6 +65,8 @@ void MainWindow::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bo
             QString name = topLeft.data().toString();
             if (name != "")
                 bookv[bottomRight.row()].changeName(name);
+            else
+                on_get_out_data();
         }
         if (topLeft.column() == 1)
             bookv[bottomRight.row()].changeGenre(topLeft.data().toString());
@@ -75,14 +77,28 @@ void MainWindow::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bo
 
 void MainWindow::on_load_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
-    QFile file(fileName);
-    QString data;
-    QStringList rowOfData;
-    QStringList rowData;
+    bool cont = true;
+    if (!bookv.isEmpty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Загрузка таблицы приведёт к потере существующих данных");
+        msgBox.setInformativeText("Вы хотите продолжить?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        if (msgBox.exec() == QMessageBox::No)
+            cont = false;
+    }
+    if (cont)
+    {
+        QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
+        QFile file(fileName);
+        QString data;
+        QStringList rowOfData;
+        QStringList rowData;
+
     if (file.open(QFile::ReadOnly))
     {
-        ui->load->setCheckable(false);
+        on_earase_clicked();
         data = file.readAll();
         rowOfData = data.split("\n");
         file.close();
@@ -95,8 +111,8 @@ void MainWindow::on_load_clicked()
         a.changeNumofpages(rowData[2].toInt());
         bookv.push_back(a);
     }
-    ui->load->setEnabled(false);
     on_get_out_data();
+    }
     }
 }
 
@@ -117,12 +133,10 @@ void MainWindow::on_save_clicked()
     }
 }
 
-
 void MainWindow::on_earase_clicked()
 {
     bookv.clear();
     QStandardItemModel* model=  new QStandardItemModel();
     ui->tableView->setModel(model);
-    ui->load->setEnabled(true);
 }
 
