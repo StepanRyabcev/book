@@ -155,6 +155,8 @@ void MainWindow::on_load_clicked()
 
 void MainWindow::on_save_clicked()
 {
+    if (!bookv.empty())
+    {
     QString fileName = QFileDialog::getSaveFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
     QFile file(fileName);
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -167,6 +169,15 @@ void MainWindow::on_save_clicked()
                 write << "\n";
         }
         file.close();
+    }
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Внимание");
+        msgBox.setText("Таблица пуста");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.exec();
     }
 }
 
