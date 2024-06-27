@@ -4,6 +4,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,6 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_submit_clicked()
 {
+    ui->load->setEnabled(false);
     changedbysubmit = true;
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
@@ -28,6 +30,7 @@ void MainWindow::on_submit_clicked()
     ui->b_str->setValue(0);
     if (name != "")
     {
+        ui->load->setCheckable(false);
         bookv.push_back(Book(name, genre, str));
         objnum++;
         on_get_out_data();
@@ -69,3 +72,33 @@ void MainWindow::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bo
             bookv[bottomRight.row()].changeNumofpages(topLeft.data().toInt());
     }
 }
+
+
+void MainWindow::on_load_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
+    QFile file(fileName);
+    QString data;
+    QStringList rowOfData;
+    QStringList rowData;
+    if (file.open(QFile::ReadOnly))
+    {
+        ui->load->setCheckable(false);
+        data = file.readAll();
+        rowOfData = data.split("\n");
+        file.close();
+    }
+    for (int x = 0; x < rowOfData.size(); x++)
+    {
+        Book a;
+        rowData = rowOfData.at(x).split(";");
+        a.changeName(rowData[0]);
+        a.changeGenre(rowData[1]);
+        a.changeNumofpages(rowData[2].toInt());
+        bookv.push_back(a);
+        objnum++;
+    }
+    ui->load->setEnabled(false);
+    on_get_out_data();
+}
+

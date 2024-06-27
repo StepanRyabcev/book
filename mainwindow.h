@@ -24,6 +24,8 @@ private slots:
 
     void onDataChanged(const QModelIndex&, const QModelIndex&);
 
+    void on_load_clicked();
+
 private:
     void on_get_out_data();
     QVector<Book> bookv;
