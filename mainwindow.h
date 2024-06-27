@@ -26,6 +26,8 @@ private slots:
 
     void on_load_clicked();
 
+    void on_save_clicked();
+
 private:
     void on_get_out_data();
     QVector<Book> bookv;

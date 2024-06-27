@@ -4,6 +4,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QTextStream>
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -73,7 +74,6 @@ void MainWindow::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bo
     }
 }
 
-
 void MainWindow::on_load_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
@@ -87,7 +87,6 @@ void MainWindow::on_load_clicked()
         data = file.readAll();
         rowOfData = data.split("\n");
         file.close();
-    }
     for (int x = 0; x < rowOfData.size(); x++)
     {
         Book a;
@@ -100,5 +99,24 @@ void MainWindow::on_load_clicked()
     }
     ui->load->setEnabled(false);
     on_get_out_data();
+    }
+}
+
+void MainWindow::on_save_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
+    QFile file(fileName);
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream write(&file);
+        for (int i = 0; i < objnum; i++)
+        {
+            write << bookv[i].getname() << ";" << bookv[i].getgenre() << ";" << QString::number(bookv[i].getstr());
+            if (i + 1 != objnum)
+                write << "\n";
+        }
+        file.close();
+    }
+
 }
 
