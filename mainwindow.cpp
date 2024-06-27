@@ -33,7 +33,6 @@ void MainWindow::on_submit_clicked()
     {
         ui->load->setCheckable(false);
         bookv.push_back(Book(name, genre, str));
-        objnum++;
         on_get_out_data();
     }
     changedbysubmit = false;
@@ -42,9 +41,9 @@ void MainWindow::on_submit_clicked()
 
 void MainWindow::on_get_out_data()
 {
-    QStandardItemModel* model=  new QStandardItemModel(objnum, 3);
+    QStandardItemModel* model=  new QStandardItemModel(bookv.size(), 3);
     connect(model, &QStandardItemModel::dataChanged, this, &MainWindow::onDataChanged);
-    for (int i = 0; i < objnum; i++)
+    for (int i = 0; i < bookv.size(); i++)
     {
         model->setItem(i, 0, new QStandardItem(bookv[i].getname()));
         model->setItem(i, 1, new QStandardItem(bookv[i].getgenre()));
@@ -95,7 +94,6 @@ void MainWindow::on_load_clicked()
         a.changeGenre(rowData[1]);
         a.changeNumofpages(rowData[2].toInt());
         bookv.push_back(a);
-        objnum++;
     }
     ui->load->setEnabled(false);
     on_get_out_data();
@@ -109,14 +107,22 @@ void MainWindow::on_save_clicked()
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream write(&file);
-        for (int i = 0; i < objnum; i++)
+        for (int i = 0; i < bookv.size(); i++)
         {
             write << bookv[i].getname() << ";" << bookv[i].getgenre() << ";" << QString::number(bookv[i].getstr());
-            if (i + 1 != objnum)
+            if (i + 1 != bookv.size())
                 write << "\n";
         }
         file.close();
     }
+}
 
+
+void MainWindow::on_earase_clicked()
+{
+    bookv.clear();
+    QStandardItemModel* model=  new QStandardItemModel();
+    ui->tableView->setModel(model);
+    ui->load->setEnabled(true);
 }
 

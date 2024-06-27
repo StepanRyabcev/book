@@ -28,6 +28,8 @@ private slots:
 
     void on_save_clicked();
 
+    void on_earase_clicked();
+
 private:
     void on_get_out_data();
     QVector<Book> bookv;
