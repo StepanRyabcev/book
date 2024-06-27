@@ -43,20 +43,20 @@
    <widget class="QPushButton" name="submit">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>120</y>
+      <x>290</x>
+      <y>100</y>
       <width>83</width>
       <height>29</height>
      </rect>
     </property>
     <property name="text">
-     <string>Ввести</string>
+     <string>Добавить</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="b_str">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>450</x>
       <y>40</y>
       <width>111</width>
       <height>29</height>
@@ -76,43 +76,17 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="load">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>120</y>
-      <width>83</width>
-      <height>29</height>
+      <x>30</x>
+      <y>10</y>
+      <width>321</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Загрузить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="save">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>120</y>
-      <width>83</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Сохранить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="earase">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>120</y>
-      <width>83</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Очистить</string>
+     <string>Добавление новой инфрмации</string>
     </property>
    </widget>
   </widget>
@@ -125,8 +99,38 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="load_2"/>
+    <addaction name="save_2"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Правка</string>
+    </property>
+    <addaction name="clear"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="load_2">
+   <property name="text">
+    <string>Загрузить</string>
+   </property>
+  </action>
+  <action name="save_2">
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
+  <action name="clear">
+   <property name="text">
+    <string>Очистить таблицу</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -13,6 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QWidget::setWindowTitle("Book");
+    QObject::connect(ui->load_2, &QAction::triggered, this, MainWindow::on_load_clicked);
+    QObject::connect(ui->save_2, &QAction::triggered, this, MainWindow::on_save_clicked);
+    QObject::connect(ui->clear, &QAction::triggered, this, MainWindow::on_earase_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -31,7 +35,6 @@ void MainWindow::on_submit_clicked()
     ui->b_str->setValue(0);
     if (name != "")
     {
-        ui->load->setCheckable(false);
         bookv.push_back(Book(name, genre, str));
         on_get_out_data();
     }
@@ -81,6 +84,7 @@ void MainWindow::on_load_clicked()
     if (!bookv.isEmpty())
     {
         QMessageBox msgBox;
+        msgBox.setWindowTitle("Предупреждение");
         msgBox.setText("Загрузка таблицы приведёт к потере существующих данных");
         msgBox.setInformativeText("Вы хотите продолжить?");
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -135,8 +139,20 @@ void MainWindow::on_save_clicked()
 
 void MainWindow::on_earase_clicked()
 {
-    bookv.clear();
-    QStandardItemModel* model=  new QStandardItemModel();
-    ui->tableView->setModel(model);
+    if (bookv.size() != 0)
+    {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Предупреждение");
+    msgBox.setText("Очистка таблицы приведёт к потере существующих данных");
+    msgBox.setInformativeText("Вы хотите продолжить?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    if (msgBox.exec() == QMessageBox::Yes)
+    {
+        bookv.clear();
+        QStandardItemModel* model=  new QStandardItemModel();
+        ui->tableView->setModel(model);
+    }
+    }
 }
 
