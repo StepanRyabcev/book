@@ -30,13 +30,21 @@ void MainWindow::on_submit_clicked()
     QString name = ui->b_name->toPlainText();
     QString genre = ui->b_genre->toPlainText();
     int str = ui->b_str->value();
-    ui->b_name->clear();
-    ui->b_genre->clear();
-    ui->b_str->setValue(0);
     if (name != "")
     {
         bookv.push_back(Book(name, genre, str));
         on_get_out_data();
+        ui->b_name->clear();
+        ui->b_genre->clear();
+        ui->b_str->setValue(0);
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Внимание");
+        msgBox.setText("Название книги не может быть пустым");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.exec();
     }
     changedbysubmit = false;
 }
