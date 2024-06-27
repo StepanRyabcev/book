@@ -69,7 +69,27 @@ void MainWindow::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bo
             if (name != "")
                 bookv[bottomRight.row()].changeName(name);
             else
+            {
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Предупреждение");
+                msgBox.setText("Вы действительно хотите удалить данную строку");
+                msgBox.setInformativeText("Вы хотите продолжить?");
+                msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                msgBox.setDefaultButton(QMessageBox::No);
+                QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
+                buttonY->setText("Да");
+                QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
+                buttonN->setText("Нет");
+                msgBox.setIcon(QMessageBox::Question);
+                if (msgBox.exec() == QMessageBox::Yes)
+                {
+                    bookv.remove(bottomRight.row());
+                    if (bookv.empty())
+                        on_earase_clicked();
+                }
+                else
                 on_get_out_data();
+            }
         }
         if (topLeft.column() == 1)
             bookv[bottomRight.row()].changeGenre(topLeft.data().toString());
@@ -89,6 +109,11 @@ void MainWindow::on_load_clicked()
         msgBox.setInformativeText("Вы хотите продолжить?");
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
+        QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
+        buttonY->setText("Да");
+        QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
+        buttonN->setText("Нет");
+        msgBox.setIcon(QMessageBox::Question);
         if (msgBox.exec() == QMessageBox::No)
             cont = false;
     }
@@ -147,12 +172,18 @@ void MainWindow::on_earase_clicked()
     msgBox.setInformativeText("Вы хотите продолжить?");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
+    QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
+    buttonY->setText("Да");
+    QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
+    buttonN->setText("Нет");
+    msgBox.setIcon(QMessageBox::Question);
     if (msgBox.exec() == QMessageBox::Yes)
     {
         bookv.clear();
-        QStandardItemModel* model=  new QStandardItemModel();
-        ui->tableView->setModel(model);
+        ui->tableView->setModel(nullptr);
     }
     }
+    else
+        ui->tableView->setModel(nullptr);
 }
 
