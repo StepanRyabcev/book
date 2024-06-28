@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QVector>
+#include <QStandardItemModel>
 #include "book.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,6 +36,7 @@ private slots:
     void load_binary();
 
 private:
+    QStandardItemModel* model;
     void on_get_out_data();
     void attemptosaveemptytable();
     bool losingdatawarning();

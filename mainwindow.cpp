@@ -53,7 +53,8 @@ void MainWindow::on_submit_clicked()
 
 void MainWindow::on_get_out_data()
 {
-    QStandardItemModel* model=  new QStandardItemModel(bookv.size(), 3);
+    delete model;
+    model= new QStandardItemModel(bookv.size(), 3);
     connect(model, &QStandardItemModel::dataChanged, this, &MainWindow::onDataChanged);
     for (int i = 0; i < bookv.size(); i++)
     {
@@ -130,11 +131,24 @@ void MainWindow::on_load_clicked()
     {
         Book a;
         rowData = rowOfData.at(x).split(";");
+        if (rowData.size() >= 3)
+        {
         a.changeName(rowData[0]);
         a.changeGenre(rowData[1]);
         a.changeNumofpages(rowData[2].toInt());
         bookv.push_back(a);
+        }
     }
+    if (bookv.empty())
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Внимание");
+        msgBox.setText("Возникла ошибка при загрузке файла");
+        msgBox.setInformativeText("Вы уверены что это корректный файл списка книг?");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.exec();
+    }
+    else
     on_get_out_data();
     }
     }
@@ -180,11 +194,15 @@ void MainWindow::on_earase_clicked(bool nowarning)
     if (nowarning or (msgBox.exec() == QMessageBox::Yes))
     {
         bookv.clear();
+        delete model;
         ui->tableView->setModel(nullptr);
     }
     }
     else
+    {
+        delete model;
         ui->tableView->setModel(nullptr);
+    }
 }
 
 void MainWindow::save_binary()
