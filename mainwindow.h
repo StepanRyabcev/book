@@ -28,10 +28,16 @@ private slots:
 
     void on_save_clicked();
 
-    void on_earase_clicked();
+    void on_earase_clicked(bool nowarning = false);
+
+    void save_binary();
+
+    void load_binary();
 
 private:
     void on_get_out_data();
+    void attemptosaveemptytable();
+    bool losingdatawarning();
     QVector<Book> bookv;
     Ui::MainWindow *ui;
     int objnum = 0;

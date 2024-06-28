@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->load_2, &QAction::triggered, this, MainWindow::on_load_clicked);
     QObject::connect(ui->save_2, &QAction::triggered, this, MainWindow::on_save_clicked);
     QObject::connect(ui->clear, &QAction::triggered, this, MainWindow::on_earase_clicked);
+    QObject::connect(ui->save_binary, &QAction::triggered, this, MainWindow::save_binary);
+    QObject::connect(ui->load_binary, &QAction::triggered, this, MainWindow::load_binary);
 }
 
 MainWindow::~MainWindow()
@@ -48,7 +50,6 @@ void MainWindow::on_submit_clicked()
     }
     changedbysubmit = false;
 }
-
 
 void MainWindow::on_get_out_data()
 {
@@ -110,21 +111,7 @@ void MainWindow::on_load_clicked()
 {
     bool cont = true;
     if (!bookv.isEmpty())
-    {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Предупреждение");
-        msgBox.setText("Загрузка таблицы приведёт к потере существующих данных");
-        msgBox.setInformativeText("Вы хотите продолжить?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::No);
-        QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
-        buttonY->setText("Да");
-        QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
-        buttonN->setText("Нет");
-        msgBox.setIcon(QMessageBox::Question);
-        if (msgBox.exec() == QMessageBox::No)
-            cont = false;
-    }
+        cont = losingdatawarning();
     if (cont)
     {
         QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("csv File(*.csv)"));
@@ -135,7 +122,7 @@ void MainWindow::on_load_clicked()
 
     if (file.open(QFile::ReadOnly))
     {
-        on_earase_clicked();
+        on_earase_clicked(true);
         data = file.readAll();
         rowOfData = data.split("\n");
         file.close();
@@ -172,16 +159,10 @@ void MainWindow::on_save_clicked()
     }
     }
     else
-    {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Внимание");
-        msgBox.setText("Таблица пуста");
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.exec();
-    }
+        attemptosaveemptytable();
 }
 
-void MainWindow::on_earase_clicked()
+void MainWindow::on_earase_clicked(bool nowarning)
 {
     if (bookv.size() != 0)
     {
@@ -196,7 +177,7 @@ void MainWindow::on_earase_clicked()
     QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
     buttonN->setText("Нет");
     msgBox.setIcon(QMessageBox::Question);
-    if (msgBox.exec() == QMessageBox::Yes)
+    if (nowarning or (msgBox.exec() == QMessageBox::Yes))
     {
         bookv.clear();
         ui->tableView->setModel(nullptr);
@@ -206,3 +187,76 @@ void MainWindow::on_earase_clicked()
         ui->tableView->setModel(nullptr);
 }
 
+void MainWindow::save_binary()
+{
+    if (!bookv.empty())
+    {
+    QString fileName = QFileDialog::getSaveFileName(this, ("Open File"), "/home", ("Binary File(*.bin)"));
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QDataStream stream(&file);
+        for (int i = 0; i < bookv.size(); i++)
+        {
+            stream << bookv[i].getname() << bookv[i].getgenre() << bookv[i].getstr();
+        }
+        file.close();
+    }
+    }
+    else
+        attemptosaveemptytable();
+}
+
+void MainWindow::load_binary()
+{
+    bool cont = true;
+    if (!bookv.isEmpty())
+        cont = losingdatawarning();
+    if (cont)
+    {
+        QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Binary File(*.bin)"));
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadOnly))
+        {
+            on_earase_clicked(true);
+            QDataStream stream(&file);
+            QString name, genre;
+            int str;
+            while(!stream.atEnd())
+            {
+                stream >> name >> genre >> str;
+                Book a(name, genre, str);
+                bookv.push_back(a);
+            }
+            file.close();
+            on_get_out_data();
+        }
+    }
+}
+
+void MainWindow::attemptosaveemptytable()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Внимание");
+    msgBox.setText("Таблица пуста");
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.exec();
+}
+
+bool MainWindow::losingdatawarning()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Предупреждение");
+    msgBox.setText("Загрузка таблицы приведёт к потере существующих данных");
+    msgBox.setInformativeText("Вы хотите продолжить?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
+    buttonY->setText("Да");
+    QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
+    buttonN->setText("Нет");
+    msgBox.setIcon(QMessageBox::Question);
+    if (msgBox.exec() == QMessageBox::No)
+        return false;
+    return true;
+}
